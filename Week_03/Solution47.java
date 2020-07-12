@@ -1,40 +1,29 @@
-分治、回溯采用递归
-求解组合、全排列用递归的模板如下
-```
-private List<List<Integer>> list = new LinkedList<>();
-    private int[] nums;
-    private int length;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
-    public List<List<Integer>> permute(int[] nums) {
-        this.nums = nums;
-        this.length = nums.length;
-        permute(new LinkedList<>());
-        return list;
+public class Solution47 {
+
+    public static void main(String[] args) {
+        Solution47 solution = new Solution47();
+        List<List<Integer>> list = solution.permuteUnique(new int[]{1, 1, 3,});
+        System.out.println(list.size());
     }
 
-    private void permute(LinkedList<Integer> curr) {
-        // 如果求组合，把length改一下，然后return就好
-        if (curr.size() == length) {
-            // 满足条件了
-            list.add(new ArrayList<>(curr));
-        }
-        for (int i = 0; i < length; i++) {
-            // 给回溯套路增加一个条件
-            if (!curr.contains(nums[i])) {
-                // 把当前节点加进去
-                curr.add(nums[i]);
-                // drill in
-                permute(curr);
-                // reverse
-                curr.removeLast();
-            }
-        }
-    }
-```
+    /**
+     * 以 [1, 1, 3]为例子
+     * 先画树
+     *                *
+     *        1       1       3
+     *      1 1 3   1 1 3   1 1 3
+     *
+     *  可以看到第一个分支和第二个分支重复了，剪支吧
+     *  用一个map存储每一个数字出现的次数，然后只要次数不超过，就可以纳入结果
+     *
+     */
 
-如果再增加一个初始元素可以包含重复元素的话，用一个hashMap记录每个char出现的次数，然后把输入数组去重，模板如下
-```
-private List<List<Integer>> mList = new LinkedList<>();
+    private List<List<Integer>> mList = new LinkedList<>();
     private HashMap<Integer, Integer> map = new HashMap<>();
     private int[] nums;
     private int targetLength;
@@ -91,4 +80,4 @@ private List<List<Integer>> mList = new LinkedList<>();
         }
         return count;
     }
-```
+}
